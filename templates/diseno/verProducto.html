@@ -1,0 +1,39 @@
+{% extends 'base/base.html' %}
+
+{% block principal %}
+
+<div class = "panel-heading">
+    
+
+<table id="example" class="table table-bordered datatable dataTable" width="100%">
+        <thead>
+            <tr>
+                <th>IdProyecto</th>
+                <th>Nombre Producto</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>IdProyecto</th>
+                <th>Nombre Producto</th>
+                <th>Acciones</th>
+            </tr>
+        </tfoot>
+        <tbody>
+        	{% for x in pro %}
+            <tr>  
+                <td>{{x.idProyecto}}</td>
+                <td>{{x.nombre}}</td>
+                <td><a href="{% url 'pyc:producto_edit' x.id %}">editar</a></td>  
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+<script>
+	$(document).ready(function() {
+        $('#example').DataTable();
+	} );
+</script>

@@ -1,0 +1,152 @@
+{% extends 'base/base.html' %}
+
+{% block principal %}
+<div class="panel panel-primary" data-collapsed="0">
+	<div class="panel-heading" >
+		<div class="panel-title">
+            Información general
+		</div>	
+		
+        <div class="panel-options align-middle">
+            <div class="row">
+                <div class="col-md-4">	
+                    <button type="button" class="btn btn-default btn-icon icon-left" onclick="">
+                        Guardar
+                        <i class="entypo-floppy"></i>
+                    </button>
+                </div>
+                <div class="col-md-4">	
+                    <button type="button" class="btn btn-default btn-icon icon-left" onclick="">
+                        Limpiar
+                        <i class="entypo-doc"></i>
+                    </button>
+                </div>
+                <div class="col-md-4">	
+                    <button id="btnListar" type="button" class="btn btn-default btn-icon icon-left" onclick="">
+                        Listar
+                        <i class="entypo-print"></i>
+                    </button>
+                </div>
+            </div>
+	    </div>
+    </div>
+	<div class="panel-body">
+
+        <form method="post" role="form" class="form-horizontal form-groups-bordered">{% csrf_token %}
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="idproyecto" class="col-md-2 control-label">Id Proyecto</label>   
+                    <div class="col-md-9 input-group">
+                        <input type="text" class="form-control" id="idproyecto" placeholder="Proyecto nuevo"   disabled>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="nitcliente" class="col-md-2 control-label">Cliente</label>
+                    <div class="col-md-3 input-group">
+                        {{ form.nitCliente }}
+                        <div class="input-group-btn">
+                            <button type="button" id="btnCargarCliente" class="btn btn-primary" aria-label="Help"><span class="glyphicon glyphicon-retweet"></span></button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 input-group">
+                        {{ form.nombreCliente }}
+                        <div class="input-group-btn">
+                            <button type="button" id="btnBuscarCliente" class="btn btn-primary" aria-label="Help" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-search"></span></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="txtAsesor" class="col-md-2 control-label">Asesor</label>
+                    <div class="col-md-9">
+                         {{ form.asesor }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="txtFechaProy" class="col-md-2 control-label">Fecha</label>
+                    <div class="input-group col-md-9">
+                        <input type="text" class="form-control datepicker" id="txtFechaProy" data-start-view="1" value="{{f}}" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="txtNombre" class="col-md-2 control-label">Nombre</label>
+                    <div class="col-md-9">
+                        {{ form.descripcion }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="txtValor" class="col-md-2 control-label">Valor</label>
+                    <div class="col-md-9 input-group">
+                        <span class="input-group-addon">$</span>                        
+                        {{ form.valor }}
+                    </div>
+                </div>
+                <i class="fa fa-usd"></i>
+            </div>
+            <input type="submit" value="Guardar" />
+        </form>
+	</div>
+</div>
+
+<!-- Trigger the modal with a button 
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" aria-label="Help"><span class="glyphicon glyphicon-flash"></span></button>-->
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Seleccionar un cliente</h4>
+      </div>
+      <div class="modal-body">
+        <table id="example" class="table table-hover dataTable">
+            <thead>
+                <tr>
+                    <th>Nit</th>
+                    <th>Nombre Cliente</th>
+                    <th>Contacto</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Nit</th>
+                    <th>Nombre Cliente</th>
+                    <th>Contacto</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                </tr>
+            </tfoot>
+            <tbody>
+            {% for cliente in client %}  
+            <tr> 
+                <td><a href="">{{cliente.nit}}</a></td>
+                <td>{{cliente.nombre}}</td>
+                <td>{{cliente.contacto}}</td>
+                <td>{{cliente.correo}}</td>
+                <td>{{cliente.telefono}}</td>
+            </tr> 
+            {% endfor %}
+        </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>

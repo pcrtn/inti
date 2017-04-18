@@ -1,0 +1,53 @@
+{% extends 'base/base.html' %}
+
+{% block principal %}
+<table id="example" class="table table-bordered datatable dataTable" width="100%">
+        <thead>
+            <tr>
+                <th>IdProyecto</th>
+                <th>Nombre Proyecto</th>
+                <th>Cliente</th>
+                <th>Asesor</th>
+                <th>Fecha Inicial</th>
+                <th>Fecha Entrega Diseño</th>
+                <th>Fecha Entrega Muestras</th>
+                <th>Tipo de Proyecto</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>IdProyecto</th>
+                <th>Nombre Proyecto</th>
+                <th>Cliente</th>
+                <th>Asesor</th>
+                <th>Fecha Inicial</th>
+                <th>Fecha Entrega Diseño</th>
+                <th>Fecha Entrega Muestras</th>
+                <th>Tipo de Proyecto</th>
+                <th>Acción</th>
+            </tr>
+        </tfoot>
+        <tbody>
+        	{% for x in p%}
+            <tr>  
+                <td>{{x.id}}</td>
+                <td>{{x.descripcion}}</td>
+                <td>{{x.nombreCliente}}</td>
+                <td>{{x.asesor}}</td>
+                <td>{{x.fecha}}</td>
+                <td>{{x.fechaEntDis}}</td>
+                <td>{{x.fechaMueFis}}</td>
+                <td>{{x.tipoProyecto}}</td>
+                <td><a href="{% url 'pyc:proyecto_edit' x.id %}">editar</a></td>  
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+<script>
+	$(document).ready(function() {
+    	$('#example').DataTable();
+
+	} );
+</script>

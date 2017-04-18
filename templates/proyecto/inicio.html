@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+
+{% block principal %}
+		<div class="row">
+			<a href="{% url 'pyc:proyecto_list' %}">
+			<div class="col-sm-3 col-xs-6">
+		
+				<div class="tile-stats tile-primary">
+					<div class="icon"><i class="entypo-clipboard"></i></div>
+					<div class="num" data-start="0" data-end="{{c}}" data-postfix="" data-duration="2500" data-delay="0">0</div>
+		
+					<h3>Ver Proyectos</h3>
+					<p>Se visualizan todos los proyectos creados</p>
+				</div>
+		
+			</div>
+			</a>
+			
+			<a href="{% url 'pyc:proyecto_view' %}">
+			<div class="col-sm-3 col-xs-6">
+		
+				<div class="tile-stats tile-blue">
+					<div class="icon"><i class="entypo-list-add"></i></div>
+					<div class="num" data-start="0" data-end="{{c}}" data-postfix="" data-duration="1500" data-delay="600">0</div>
+		
+					<h3>Crear Proyectos</h3>
+					<p>Permite la edición de proyectos creados.</p>
+				</div>
+		
+			</div>
+			</a>
+			
+			<a href="{% url 'pyc:solicitud' %}">
+			<div class="col-sm-3 col-xs-6">
+		
+				<div class="tile-stats tile-green">
+					<div class="icon"><i class="entypo-mail"></i></div>
+					<div class="num" data-start="0" data-end="5" data-postfix="" data-duration="1500" data-delay="1200">0</div>
+		
+					<h3>Solicitud Nuevo Cliente</h3>
+					<p>Nuevo cliente.</p>
+				</div>
+			</div>
+			</a>
+		</div>
+{% endblock %}

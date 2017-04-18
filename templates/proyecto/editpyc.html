@@ -1,0 +1,359 @@
+{% extends 'base/base.html' %}
+
+{% block principal %}
+<div class="panel panel-primary" data-collapsed="0">
+    <div class="panel-heading" >
+        <div class="panel-title">
+            Información general
+        </div>  
+        
+        <div class="panel-options align-middle">
+            <div class="row">
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-default btn-icon icon-left" onclick="">
+                    Guardar
+                    <i class="entypo-floppy"></i>
+            </button>  
+                </div>
+                <div class="col-md-4">  
+                    <button type="button" class="btn btn-default btn-icon icon-left" onclick="">
+                        Limpiar
+                        <i class="entypo-doc"></i>
+                    </button>
+                </div>
+                <div class="col-md-4">  
+                    <button id="btnListar" type="button" class="btn btn-default btn-icon icon-left" onclick="">
+                        Listar
+                        <i class="entypo-print"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+
+        <form method="post" role="form" class="form-horizontal form-groups-bordered">{% csrf_token %}
+        
+            <div class="row">
+                <div class="form-group">
+                    <label for="idproyecto" class="col-md-2 control-label">Id Proyecto</label>   
+                    <div class="col-md-9 input-group">
+                        <input type="text" class="form-control" id="idproyecto" placeholder="Proyecto nuevo" value="{{a}}" disabled>
+                    </div>
+                </div>
+        
+                <div class="form-group">
+                    <label for="nitcliente" class="col-md-2 control-label">Cliente</label>
+                    <div class="col-md-3 input-group">
+                        {{ form.nitCliente }}
+                        <div class="input-group-btn">
+                            <button type="button" id="btnCargarCliente" class="btn btn-primary" aria-label="Help"><span class="glyphicon glyphicon-retweet"></span></button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 input-group">
+                        {{ form.nombreCliente }}
+                        <div class="input-group-btn">
+                            <button type="button" id="btnBuscarCliente" class="btn btn-primary" aria-label="Help"><span class="glyphicon glyphicon-search" onclick="jQuery('#modal-1').modal('show');"></span></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="txtAsesor" class="col-md-2 control-label">Asesor</label>
+                    <div class="col-md-9">
+                         {{ form.asesor }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="txtFechaProy" class="col-md-2 control-label">Fecha</label>
+                    <div class="input-group col-md-9">
+                        <input type="text" class="form-control datepicker" id="txtFechaProy" data-start-view="1" value="{{fe}}" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="txtNombre" class="col-md-2 control-label">Nombre</label>
+                    <div class="col-md-9">
+                        {{ form.descripcion }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="txtValor" class="col-md-2 control-label">Valor</label>
+                    <div class="col-md-9 input-group">
+                        <span class="input-group-addon">$</span>                        
+                        {{ form.valor }}
+                    </div>
+                </div>
+                <i class="fa fa-usd"></i>
+            </div>
+            <button type="submit" class="btn btn-default btn-icon icon-left" onclick="">
+                Guardar
+                <i class="entypo-floppy"></i>
+            </button>
+        
+    </div>
+</div>
+
+
+<div id="pnlDesPro" class="panel panel-primary" data-collapsed="1">
+    <div class="panel-heading" >
+        <div class="panel-title">
+            Descripción del proyecto
+        </div>  
+
+        <div class="panel-options">
+            <a href="#" data-rel="collapse" ><i class="glyphicon glyphicon-chevron-down"></i></a>
+        </div>
+    </div>  
+    <div class="panel-body">
+        
+            <div class="row">
+                <div class="form-group">
+                    <label for="txtDescripcion" class="col-md-2 control-label">Descripción</label>
+                    <div class="col-md-9 form-group">
+                        {{form.descripcionP}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cmbTipoProyecto" class="col-md-2 control-label">Tipo proyecto</label>
+                    <div class="col-md-9">
+                        {{form.tipoProyecto}}
+                    </div>
+                </div>
+                <br/>
+                <div class="form-group">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-9">
+                        {% for x in form.selec %}
+                            {{ x }}    
+                        {% endfor %}
+                        </div>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+
+<div id="pnlImgArch" class="panel panel-primary" data-collapsed="1">
+    <div class="panel-heading" >
+        <div class="panel-title">
+            Imágenes y archivos
+        </div>  
+
+        <div class="panel-options">
+            <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-chevron-down"></i></a>
+        </div>
+    </div>  
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-2 center">   
+
+            </div>
+            <div class="col-md-5 center">   
+                <button type="button" class="btn btn-default btn-icon icon-left" data-toggle="modal" data-target="#imagenesProyecto">
+                    Ver imágenes del proyecto
+                    <i class="entypo-picture"></i>
+                </button>
+            </div>
+
+            <div class="col-md-5 center">   
+                <button type="button" class="btn btn-default btn-icon icon-left" data-toggle="modal" data-target="#archivosProyecto">
+                    Ver documentos del proyecto
+                    <i class="entypo-newspaper"></i>
+                </button>
+            </div>
+        </div>
+        <br />
+        
+    </div>
+</div>
+
+
+<div id="pnlFecCrit" class="panel panel-primary" data-collapsed="1">
+    <div class="panel-heading" >
+        <div class="panel-title">
+            Fechas críticas
+        </div>  
+
+        <div class="panel-options">
+            <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-chevron-down"></i></a>
+        </div>
+    </div>                  
+    <div class="panel-body">
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="txtFechaMuestraFisica" class="col-md-2 control-label">Fecha entrega diseños</label>
+                    <div class="input-group col-md-9">
+                        {{ form.fechaEntDis }}
+                        <div class="input-group-addon">
+                            <i class="entypo-calendar"></i>
+                        </div>
+                    </div>
+                </div>
+                <br/><br/>
+                <div class="form-group">
+                    <label for="txtFechaMuestraFisica" class="col-md-2 control-label">Fecha muestra física</label>
+                    <div class="input-group col-md-9">
+                        {{ form.fechaMueFis }}
+                        <div class="input-group-addon">
+                            <i class="entypo-calendar"></i>
+                        </div>
+                    </div>
+                </div>
+                <br/><br/>
+                <div class="form-group">
+                    <label for="txtFechaAprobacion" class="col-md-2 control-label">Fecha de aprobación</label>
+                    <div class="input-group col-md-9">
+                        {{ form.fechaApr }}
+                        <div class="input-group-addon">
+                            <i class="entypo-calendar"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <br/><br/>
+                <div class="form-group">
+                    <label for="txtFechaEntregaProd" class="col-md-2 control-label">Fecha de entrega Prod.</label>
+                    <div class="input-group col-md-9">
+                        {{ form.fechaEntPro }}                
+                        <div class="input-group-addon">
+                            <i class="entypo-calendar"></i>
+                        </div>
+                    </div>
+                </div>
+                <br/><br/>
+                <div class="form-group">
+                    <label for="txtObservacionesFecha" class="col-md-2 control-label">Observaciones</label>
+                    <div class="col-md-9 input-group">
+                        {{ form.descripcionF }}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="pnlDetPro" class="panel panel-primary panel-collapse" data-collapsed="1" target="name_iframe">
+    <div class="panel-heading" >
+        <div class="panel-title">
+            Productos
+        </div>  
+
+        <div class="panel-options">
+            <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-chevron-down" ></i></a>
+        </div>
+    </div>                  
+    <div class="panel-body">
+        <form method="post" action="{% url 'pyc:producto_proyecto' %}" role="form" class="form-horizontal form-groups-bordered"> {% csrf_token %}
+            <div class="row">
+                <div class="form-group">
+                    <label for="txtCodProducto" class="col-md-2 control-label">Producto</label>
+                    <div class="input-group col-md-9">
+                        <input type="text" class="form-control" id="idProyecto" style="display: none;" name="idProyecto" value="{{a}}">
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombre del producto" name="nombre" required>
+                        <div class="input-group-btn">
+                            <button type="submit" id="btnAgregarProducto" class="btn btn-primary" aria-label="Help" data-toggle="tooltip" data-placement="top" title="Agregar producto"><span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+                        <div class="input-group-btn">
+                            <button type="button" id="btnEliminarProducto" class="btn btn-primary" aria-label="Help" onclick="jQuery('#txtNomProducto').val('');" data-toggle="tooltip" data-placement="top" title="Limpiar producto"><span class="glyphicon glyphicon-remove"></span></button>
+                        </div>
+                    </div>
+                </div>
+        </form>
+                <div class="form-group">
+                    <div id="lstProds" class="input-group col-md-10 col-md-offset-1">
+                        <table class="table table-bordered datatable" id="example"> 
+                            <thead>
+                                <tr class="replace-inputs">
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Cantidad</th>
+                                    <th>Presupuesto</th>
+                                    <th>Valor total</th>
+                                    <th>Acción</th>
+                                    <th>Diseño</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for pr in prod %}
+                                <tr>
+                                    <th>{{pr.id}}</th>
+                                    <th>{{pr.nombre}}</th>
+                                    <th>{{pr.presupuesto}}</th>
+                                    <th>{{pr.unidades}}</th>
+                                    <th>{{pr.total}}</th>
+                                    <th>
+                                        <a class="btn btn-default btn-sm btn-icon icon-left" href="{% url 'pyc:producto_edit' pr.id %}">
+                                            <i class="entypo-pencil"></i>
+                                            editar
+                                        </a>
+                                        <a class="btn btn-danger btn-sm btn-icon icon-left" href="#">
+                                            <i class="entypo-cancel"></i>
+                                            Eliminar
+                                        </a>
+                                    </th>
+                                    <th>Diseño</th>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Cantidad</th>
+                                    <th>Presupuesto</th>
+                                    <th>Valor total</th>
+                                    <th>Acción</th>
+                                    <th>Diseño</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+<!-- Trigger the modal with a button -->
+
+<!-- Modal -->
+<div id="imagenesProyecto" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Imágenes del Proyecto</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="archivosProyecto" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Archivos Del Proyecto</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base/base.html' %}
+
+{% block principal %}
+
+<div class="panel panel-primary" data-collapsed="0">
+    <div class="panel-heading" >
+        <div class="panel-title">
+            Solicitud nuevo cliente
+        </div>  
+    </div>
+    <div class="panel-body">
+
+        <form method="post" role="form" class="form-horizontal form-groups-bordered">{% csrf_token %}
+        
+            <div class="row">
+                <div class="form-group">
+                    <label for="idproyecto" class="col-md-2 control-label">Nombre del cliente</label>   
+                    <div class="col-md-9 input-group">
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombre del cliente">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="idproyecto" class="col-md-2 control-label">Razón social</label>   
+                    <div class="col-md-9 input-group">
+                        <input type="text" class="form-control" id="nombre" placeholder="Razón social">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="idproyecto" class="col-md-2 control-label">Nit</label>   
+                    <div class="col-md-9 input-group">
+                        <input type="text" class="form-control" id="nombre" placeholder="Nit">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="idproyecto" class="col-md-2 control-label">Correo</label>   
+                    <div class="col-md-9 input-group">
+                        <input type="text" class="form-control" id="nombre" placeholder="Correo">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="idproyecto" class="col-md-2 control-label">Teléfono</label>   
+                    <div class="col-md-9 input-group">
+                        <input type="text" class="form-control" id="nombre" placeholder="Teléfono">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="idproyecto" class="col-md-2 control-label">Solicitante</label>   
+                    <div class="col-md-9 input-group">
+                        <input type="text" class="form-control" id="nombre" placeholder="Solicitante" disabled>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="idproyecto" class="col-md-2 control-label">Observaciones</label>   
+                    <div class="col-md-9 input-group">
+                        <input type="text" class="form-control" id="nombre" placeholder="Observaciones">
+                    </div>
+                </div>  
+
+			<div class="col-md-11"></div>
+			<div class="col-md-1">
+            <button type="submit" class="btn btn-default btn-icon icon-left" >
+                Guardar
+                <i class="entypo-floppy"></i>
+            </button>
+            </div>
+                                      
+    		</div>
+		</div>
+</form>
+</div>
+
+{% endblock %}

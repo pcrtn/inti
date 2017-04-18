@@ -1,0 +1,65 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+{% if request.user.is_authenticated %}
+
+<div class="page-body login-page login-form-fall">
+
+<div class="login-container">
+    
+    <div class="login-header login-caret">
+        
+        <div class="login-content">
+            <br/><br/>
+                {% load staticfiles  %}
+                <img src="{% static 'img/logo_inti.png' %}" width="220" alt="" />            
+        </div>
+        
+    </div>
+    
+    
+    <div class="login-form">
+        
+        <div class="login-content">
+            <h1>Ya ingresaste a la aplicación</h1>
+            <a href="{% url 'pyc:inicio'%}"><p>Volver al inicio</p></a>            
+        </div>
+        
+    </div>
+    
+</div>
+</div>
+        
+{% else %}
+
+<div class="page-body login-page login-form-fall">
+
+<div class="login-container">
+    
+    <div class="login-header login-caret">
+        
+        <div class="login-content">
+            <br/><br/>
+                {% load staticfiles  %}
+                <img src="{% static 'img/logo_inti.png' %}" width="220" alt="" />            
+        </div>
+        
+    </div>
+    
+    
+    <div class="login-form">
+        
+        <div class="login-content">
+            <h1>El usuario fue creado</h1>
+            <a href="{% url 'login'%}"><p>Volver al login</p></a>            
+        </div>
+        
+    </div>
+    
+</div>
+</div>      
+
+{% endif %}
+
+{% endblock %}

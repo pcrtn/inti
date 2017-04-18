@@ -1,0 +1,474 @@
+{% extends 'base/base.html' %}
+
+{% block principal %}
+<div class="form-group">
+    <div class="panel panel-primary col-md-10 col-md-offset-1">
+        <div class="panel-heading" >
+            <div id="divNomProducto" class="panel-title">
+                Detalles del producto: {{product}}                
+            </div>  
+        
+            <div class="panel-options align-middle">
+                <div class="row">
+                    <div class="col-md-4">
+                        <a href="/proyecto/editar/{{product.idProyecto.id}}/">
+                        <button type="button" class="btn btn-primary" aria-label="Help" data-toggle="tooltip" data-placement="top" title="Volver al proyecto"><span class="entypo entypo-doc-text-inv"></span></button>
+                        </a>
+
+                    </div>
+                    <form method='post'>{% csrf_token %}
+                    <div class="col-md-4">  
+                        <button type="submit" id="btnGuardarProducto" class="btn btn-primary" aria-label="Help" data-toggle="tooltip" data-placement="top" title="Guardar cambios del producto"><span class="glyphicon glyphicon-ok"></span></button>
+                    </div>
+                    {{form.disenador.is_select}}
+                	<div class="col-md-4">  
+                        <button type="button" id="btnAsignarDiseño" class="btn btn-primary" aria-label="Help" data-placement="top" title="Asignar diseño al producto" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-flash"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                                        
+                <div class="form-group">
+                    <label for="presupuesto" class="col-md-2 control-label">		Presupuesto
+                    </label>
+                    <div class="col-md-2 input-group">
+                        {{form.presupuesto}}
+                    </div>
+                    <label for="unidades" class="col-md-1 control-label">			Unidades	
+                    </label>
+                    <div class="col-md-2 input-group">
+                        {{form.unidades}}
+                    </div>
+                    <label for="total" class="col-md-1 control-label">
+                        Total
+                    </label>
+                    <div class="col-md-2 input-group">
+                        {{form.total}}
+                    </div>
+                </div>
+                <br/><br/>
+                <div class="form-group">
+                    <label for="spnMuestaFisica" class="col-md-2 control-label">Muestra física</label>
+                        <div class="input-spinner col-md-12">
+                            <button type="button" class="btn btn-default">-</button>
+                            {{form.muestraF}}
+                            <button type="button" class="btn btn-default">+</button>
+                        </div>
+                </div>
+                <br/>
+                    <label for="spnNroPropuestas" class="col-md-2 control-label">Número de propuestas</label>
+                    <div class="input-spinner col-md-12">
+                        <button type="button" class="btn btn-default">-</button>
+                            {{form.numeroP}}
+                        <button type="button" class="btn btn-default">+</button>
+                    </div> 
+                <br/><br/><br/><br/>
+                <div class="form-group">
+                    <label for="divMateriales" class="col-md-2 control-label">Materiales</label>
+                    <div id="divMateriales" class="col-md-12 wellwhite">
+                        {% for x in form.materiales %}
+                            {{ x }}    
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="form-groups-bordered">
+                    <label for="divTermGalvanicos" class="col-md-2 control-label">Acabado Galvanico</label>
+                    <div class="input-group-btn">
+                        <button type="button" data-toggle="modal" data-target="#myModal2" class="btn btn-primary" aria-label="Help"><span class="glyphicon glyphicon-search"></span></button>
+                    </div>
+<!--modal para los acabados galvanicos-->
+<!-- Modal -->
+<div id="myModal2" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Seleccione los acabados galvánicos</h4>
+      </div>
+      <div class="modal-body">
+      <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Selección Múltiple</th>
+                <th>Acabado Galvánico</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+        {% for a in form.acabados %}
+        <tr>
+            <td>{{a.tag}}</td>
+            <td>{{a.choice_label}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- final del modal para los acabados galvanicos-->
+                </div>
+                <br/>
+                <div id="Galv" class="form-group">
+                <label for="txtDescripcionProducto" class="col-md-2 control-label">Acabados seleccionados</label>
+                <div class="col-md-9 wellwhite">
+                    {% for f in form.acabados %}
+                    {% if f.is_checked %}
+                    {{f.choice_label}},
+                    {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+                <br/><br/>
+                <div class="form-group">
+                    <label for="txtDescripcionProducto" class="col-md-2 control-label">Descripción producto</label>
+                    <div class="col-md-9 input-group">
+                        {{form.descripcionP}}
+                    </div>
+                    <br/>
+                </div>
+                <br/><br/>
+                <div class="form-group">
+                    <label for="txtInsumosDecorativos" class="col-md-2 control-label">Ins. deco.</label>
+                    <div class="col-md-4 input-group">
+                        {{form.insumosD}}
+                    </div>
+                    <label for="txtEmpaque" class="col-md-1 control-label">Empaque</label>
+                	<div class="col-md-4 input-group">
+                    	{{form.empaque}}
+                	</div>
+                </div>
+                {{form.idProyecto}}
+                {{form.nombre}}
+                </form>
+            </div>
+
+<!-- Trigger the modal with a button 
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" aria-label="Help"><span class="glyphicon glyphicon-flash"></span></button>-->
+
+<!-- Modal 
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Asignación de diseño al producto {{a}}</h4>
+      </div>
+      <div class="modal-body">
+        {% for d in dise %}
+            <ul>
+                <li>{{d.nombre}}</li>
+            </ul>
+        {% endfor %}
+        <hr/>
+        <form method='post' action="{% url 'pyc:create_disenos'%}">{% csrf_token %}
+            {{disForm}}
+            <input type="submit">
+        </form>
+        <hr/>
+        <div class="panel-body">
+                <form role="form" class="form-horizontal form-groups-bordered">
+                    <div class="form-group">
+                        <label id="lblTree" for="tree" class="col-md-2 control-label">Diseños</label>
+                        <div class="col-md-9 input-group">
+                           
+                            <div id="tree"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                       
+                        <label for="txtDsnRef" class="col-md-2 control-label">Referencia</label>
+                        <div class="col-md-9 input-group">
+                            <input type="text" class="form-control" id="txtDsnRef" placeholder="Referencia" disabled>
+                        </div>
+                        <br /><br />
+
+                        <label for="txtDsnNomProducto" class="col-md-2 control-label">Nombre</label>
+                        <div class="col-md-4 input-group">
+                            <input type="text" class="form-control" id="txtDsnNomProducto" placeholder="Nombre del producto" >
+                        </div>
+
+                        <label for="txtDsnNomDisenador" class="col-md-1 control-label">Diseñador</label>
+                        <div class="col-md-4 input-group">
+                            <input type="text" class="form-control" id="txtDsnNomDisenador" placeholder="Nombre del diseñador" readonly="readonly">
+                        </div>
+                        <br /><br />
+                        <label for="cmbLineaProducto" class="col-md-2 control-label">Linea producto</label>
+                            <input id="hfCodProyProducto" type="hidden" name="country" value="">
+                            <input id="hfCodProducto" type="hidden" name="country" value="">
+                            <input id="hfNomProducto" type="hidden" name="country" value="">
+                        <div class="col-md-9 input-group">
+                            <select id="cmbLineaProducto" class="form-control texto-nombre">
+                                <option value="FM">linea 1</option>
+                                <option value="MC">linea 2</option>
+                            </select>
+                        </div>
+                        <br /><br />
+                        <label for="cmbGrupoProducto" class="col-md-2 control-label">Grupo producto</label>
+                        <div class="col-md-4 input-group">
+                            <select id="cmbGrupoProducto" class="form-control texto-nombre">
+                            </select>
+                        </div>
+                        <label for="cmbTipoProducto" class="col-md-1 control-label">Tipo producto</label>
+                        <div class="col-md-4 input-group">
+                            <select id="cmbTipoProducto" class="form-control texto-nombre">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtDsnPeso" class="col-md-2 control-label">Peso</label>
+                        <div class="col-md-4 input-group">
+                            <input type="text" class="form-control" id="txtDsnPeso" placeholder="Peso" onkeypress="return isNumberKey(event)">
+                        </div>
+                        <label for="txtDsnLargo" class="col-md-1 control-label">Largo</label>
+                        <div class="col-md-4 input-group">
+                            <input type="text" class="form-control" id="txtDsnLargo" placeholder="Largo" onkeypress="return isNumberKey(event)">
+                        </div>
+                    <br /><br />
+                        <label for="txtDsnAncho" class="col-md-2 control-label">Ancho</label>
+                        <div class="col-md-4 input-group">
+                            <input type="text" class="form-control" id="txtDsnAncho" placeholder="Ancho" onkeypress="return isNumberKey(event)">
+                        </div>
+                        <label for="txtDsnEspesor" class="col-md-1 control-label">Espesor</label>
+                        <div class="col-md-4 input-group">
+                            <input type="text" class="form-control" id="txtDsnEspesor" placeholder="Espesor" onkeypress="return isNumberKey(event)">
+                        </div>
+                    <br /><br />
+                        <label for="txtDsnArea" class="col-md-2 control-label">Área</label>
+                        <div class="col-md-4 input-group">
+                            <input type="text" class="form-control" id="txtDsnArea" placeholder="Área" onkeypress="return isNumberKey(event)">
+                        </div>
+                        <label for="chkDsnGalvanica" class="col-md-1 control-label">Galvánica</label>
+                        <div class="col-md-4">
+                            <input type="checkbox" class="form-control" id="chkDsnGalvanica"/>
+                        </div>
+                        <br/><br/>
+                        <label for="txtDsndecoracion" class="col-md-2 control-label">Decoración</label>
+                        <div class="col-md-9 input-group">
+                            <input type="text" class="form-control" id="txtDsndecoracion" placeholder="Decoración">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Tags</label>
+                        <div id="divDsnTags" class="col-md-9">
+                            <input type="text" value="" id="txtDsnTags" class="form-control tagsinput" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div id="pnlDsnMatPrima" class="panel panel-primary panel-collapse" data-collapsed="1">
+                            <div class="panel-heading" >
+                                <div class="panel-title">
+                                    Materias primas
+                                </div>  
+
+                                <div class="panel-options">
+                                    <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-chevron-down" ></i></a>
+                                </div>
+                            </div>                  
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="txtDsnCodMatPrima" class="col-md-2 control-label">Materia prima</label>
+                                        <div class="col-md-3 input-group">
+                                            <input type="text" class="form-control" id="txtDsnCodMatPrima" placeholder="Código materia prima" onblur="cargarNomMatPrima();">
+                                            <div class="input-group-btn">
+                                                <button type="button" id="btnDsnBuscarMatPrima" class="btn btn-primary" aria-label="Help" onclick="AbrirBuscarMatPrimaBscPmd();" data-toggle="tooltip" data-placement="top" title="Buscar materia prima"><span class="glyphicon glyphicon-search"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="input-group col-md-6">
+                                            <input type="text" class="form-control" id="txtDsnNomMatPrima" placeholder="Nombre materia prima" disabled="disabled">
+                                            <div class="input-group-btn">
+                                                <button type="button" id="btnDsnAgregarMatPrima" class="btn btn-primary" aria-label="Help" onclick="AgregarMatPrima();" data-toggle="tooltip" data-placement="top" title="Agregar materia prima"><span class="glyphicon glyphicon-ok"></span></button>
+                                            </div>
+                                            <div class="input-group-btn">
+                                                <button type="button" id="btnDsnEliminarMatPrima" class="btn btn-primary" aria-label="Help" onclick="jQuery('#txtDsnCodMatPrima').val(''); jQuery('#txtDsnNomMatPrima').val('');jQuery('#DsnMatPrima_buscar').attr('style', 'display:none');" data-toggle="tooltip" data-placement="top" title="Limpiar materia prima"><span class="glyphicon glyphicon-remove"></span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div id="lstDsnMatPrima" class="input-group col-md-10 col-md-offset-1">
+                                            <table class="table table-bordered datatable" id="tblDsnMatPrima"> 
+                                                <thead>
+                                                    <tr class="replace-inputs">
+                                                        <th>Referencia</th>
+                                                        <th>Descripción</th>
+                                                        <th>Und.</th>
+                                                        <th>Cantidad</th>
+                                                        <th>Costo Coti.</th>
+                                                        <th>Costo Total</th>
+                                                        <th>Observaciones</th>
+                                                        <th>Acción</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Referencia</th>
+                                                        <th>Descripción</th>
+                                                        <th>Und.</th>
+                                                        <th>Cantidad</th>
+                                                        <th>Costo Coti.</th>
+                                                        <th>Costo Total</th>
+                                                        <th>Observaciones</th>
+                                                        <th>Acción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Referencia</th>
+                                                        <th>Descripción</th>
+                                                        <th>Und.</th>
+                                                        <th>Cantidad</th>
+                                                        <th>Costo Coti.</th>
+                                                        <th>Costo Total</th>
+                                                        <th>Observaciones</th>
+                                                        <th>Acción</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="pnlDsnComponente" class="panel panel-primary panel-collapse" data-collapsed="1">
+                            <div class="panel-heading" >
+                                <div class="panel-title">
+                                    Componentes
+                                </div>  
+
+                                <div class="panel-options">
+                                    <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-chevron-down" ></i></a>
+                                </div>
+                            </div>                  
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="txtDsnCodComponente" class="col-md-2 control-label">Componente</label>
+                                        <div class="col-md-3 input-group">
+                                            <input type="text" class="form-control" id="txtDsnCodComponente" placeholder="Código Componente" onblur="cargarNomComponente();">
+                                            <div class="input-group-btn">
+                                                <button type="button" id="btnDsnBuscarComponente" class="btn btn-primary" aria-label="Help" onclick="AbrirBuscarProductoPmd();" data-toggle="tooltip" data-placement="top" title="Buscar Componente"><span class="glyphicon glyphicon-search"></span></button>
+                                            </div>                                               
+                                        </div>
+                                        <div class="input-group col-md-6">
+                                            <input type="text" class="form-control" id="txtDsnNomComponente" placeholder="Nombre Componente" disabled="disabled">
+                                            <div class="input-group-btn">
+                                                <button type="button" id="btnDsnAgregarComponente" class="btn btn-primary" aria-label="Help" onclick="AgregarComponente();" data-toggle="tooltip" data-placement="top" title="Agregar Componente"><span class="glyphicon glyphicon-ok"></span></button>
+                                            </div>
+                                            <div class="input-group-btn">
+                                                <button type="button" id="btnDsnEliminarComponente" class="btn btn-primary" aria-label="Help" onclick="jQuery('#txtDsnCodComponente').val(''); jQuery('#DsnComponente_buscar').attr('style', 'display:none');jQuery('#txtDsnNomComponente').val('');" data-toggle="tooltip" data-placement="top" title="Limpiar componente"><span class="glyphicon glyphicon-remove"></span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div id="lstDsnComponente" class="input-group col-md-10 col-md-offset-1">
+                                            <table class="table table-bordered datatable" id="tblDsnComponente"> 
+                                                <thead>
+                                                    <tr class="replace-inputs">
+                                                        <th>Codigo</th>
+                                                        <th>Nombre</th>
+                                                        <th>Peso</th>
+                                                        <th>Largo</th>
+                                                        <th>Ancho</th>
+                                                        <th>Espesor</th>
+                                                        <th>Area</th>
+                                                        <th>Acción</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Codigo</th>
+                                                        <th>Nombre</th>
+                                                        <th>Peso</th>
+                                                        <th>Largo</th>
+                                                        <th>Ancho</th>
+                                                        <th>Espesor</th>
+                                                        <th>Area</th>
+                                                        <th>Acción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Codigo</th>
+                                                        <th>Nombre</th>
+                                                        <th>Peso</th>
+                                                        <th>Largo</th>
+                                                        <th>Ancho</th>
+                                                        <th>Espesor</th>
+                                                        <th>Area</th>                                                            
+                                                        <th>Acción</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                   
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div id="pnlImgArchDsn" class="col-md-12 form-group">
+                    <div id="pnlDsnMedia" class="col-md-12 panel panel-primary panel-collapse" data-collapsed="1">
+                        <div class="panel-heading" >
+                            <div class="panel-title">
+                                Imagenes y archivos
+                            </div>  
+
+                            <div class="panel-options">
+                                <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-chevron-down" ></i></a>
+                            </div>
+                        </div>                  
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-2 center">   
+
+                                </div>
+                                <div class="col-md-5 center">   
+                                    <button type="button" class="btn btn-default btn-icon icon-left" onclick="AbrirVerArchivosPmd('imagenes', 'diseno');">
+                                        Ver imágenes del diseño
+                                        <i class="entypo-picture"></i>
+                                    </button>
+                                </div>
+
+                                <div class="col-md-5 center">   
+                                    <button type="button" class="btn btn-default btn-icon icon-left" onclick="AbrirVerArchivosPmd('documentos', 'diseno');">
+                                        Ver documentos del diseño
+                                        <i class="entypo-newspaper"></i>
+                                    </button>
+                                </div>
+                            </div>
+                   
+                            <br />
+                            <form class="dropzone dz-min" id="dZUploadDsn">
+                                <div class="fallback">
+                                    <input name="file" type="file" multiple />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>-->
+
+{% endblock %}

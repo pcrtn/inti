@@ -1,0 +1,91 @@
+{% extends 'base/base.html' %}
+
+{% block principal %}
+<table id="example" class="table table-bordered datatable dataTable" width="100%">
+        <thead>
+            <tr>
+                <th>IdProyecto</th>
+                <th>Nombre Proyecto</th>
+                <th>Cliente</th>
+                <th>Asesor</th>
+                <th>Fecha Inicial</th>
+                <th>Fecha Entrega Diseño</th>
+                <th>Fecha Entrega Muestras</th>
+                <th>Tipo de Proyecto</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>IdProyecto</th>
+                <th>Nombre Proyecto</th>
+                <th>Cliente</th>
+                <th>Asesor</th>
+                <th>Fecha Inicial</th>
+                <th>Fecha Entrega Diseño</th>
+                <th>Fecha Entrega Muestras</th>
+                <th>Tipo de Proyecto</th>
+                <th>Acción</th>
+            </tr>
+        </tfoot>
+        <tbody>
+        	{% for x in p%}
+            <tr>  
+                <td>{{x.id}}</td>
+                <td>{{x.descripcion}}</td>
+                <td>{{x.nombreCliente}}</td>
+                <td>{{x.asesor}}</td>
+                <td>{{x.fecha}}</td>
+                <td>{{x.fechaEntDis}}</td>
+                <td>{{x.fechaMueFis}}</td>
+                <td>{{x.tipoProyecto}}</td>
+                <td><a href="{% url 'pyc:proyecto_edit' x.id %}">
+                editar </a><button type="button" data-toggle="modal" data-target="#myModal">Asignación diseñador</button></td>  
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+<!-- Trigger the modal with a button 
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" aria-label="Help"><span class="glyphicon glyphicon-flash"></span></button>-->
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Asignación de diseño al producto {{a}}</h4>
+      </div>
+      <div class="modal-body">
+        {% for d in dise %}
+            <ul>
+                <li>{{d.nombre}}</li>
+            </ul>
+        {% endfor %}
+        <hr/>
+        <form method='post' action="{% url 'pyc:create_disenos'%}">{% csrf_token %}
+            {{disForm}}
+            <input type="submit">
+        </form>
+        <hr/>
+    </div>
+</div>
+<div>
+    
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+<script>
+	$(document).ready(function() {
+    	$('#example').DataTable();
+	} );
+</script>
